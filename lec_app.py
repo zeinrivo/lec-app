@@ -84,7 +84,7 @@ if selected == "Home":
     st.caption("Created by **Zein Rivo**")
 
 if selected == "Demo":
-    st.title("Loan Eligibility with KNN Model")
+    st.title("Loan Eligibility Checking App")
     st.write("We need some informations to decide the eligibility")
 
     gendeR = {"Male","Female"}
