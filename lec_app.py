@@ -85,7 +85,7 @@ if selected == "Home":
 
 if selected == "Demo":
     st.title("Loan Eligibility Checking App")
-    st.write("We need some informations to decide the eligibility")
+    st.write("Customize the input below with your personal data")
 
     gendeR = {"Male","Female"}
     marrieD = {"Yes","No"}
