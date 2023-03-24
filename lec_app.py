@@ -74,7 +74,7 @@ if selected == "Home":
     """
     )
 
-     image1 = Image.open('knn1.jpg')
+     image1 = Image.open('knn2.jpg')
     
     st.image(image1)
     
