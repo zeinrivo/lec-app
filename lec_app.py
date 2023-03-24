@@ -75,15 +75,14 @@ if selected == "Home":
     )
 
     image1 = Image.open('knn2.jpg')
-    
     st.image(image1)
-    
     
     st.markdown(
     """
     - [Source Code](https://docs.streamlit.io)
     """
     )
+    
     st.caption("Created by **Zein Rivo**")
 
 # option : Demo 
