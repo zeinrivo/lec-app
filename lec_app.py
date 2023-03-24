@@ -79,7 +79,7 @@ if selected == "Home":
     
     st.markdown(
     """
-    - [Source Code](https://docs.streamlit.io)
+    - [Source Code](https://github.com/zeinrivo/lec-app)
     """
     )
     
