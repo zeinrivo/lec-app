@@ -2,12 +2,15 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 import pandas as pd 
 import numpy as np
+from PIL import Image
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
 
 
+# import dataset
+dataset = pd.read_csv("loan_data_set.csv") 
 
-
-dataset = pd.read_csv("loan_data_set.csv")
-
+# replace Null values with a specified value
 dataset['Gender']=dataset['Gender'].fillna(dataset['Gender'].mode().values[0])
 dataset['Married']=dataset['Married'].fillna(dataset['Married'].mode().values[0])
 dataset['Dependents']=dataset['Dependents'].fillna(dataset['Dependents'].mode().values[0])
@@ -16,8 +19,10 @@ dataset['LoanAmount']=dataset['LoanAmount'].fillna(dataset['LoanAmount'].mean())
 dataset['Loan_Amount_Term']=dataset['Loan_Amount_Term'].fillna(dataset['Loan_Amount_Term'].mode().values[0] )
 dataset['Credit_History']=dataset['Credit_History'].fillna(dataset['Credit_History'].mode().values[0] )
 
+# drop unimportant column
 dataset.drop('Loan_ID', axis=1, inplace=True)
 
+# categorical data to numerical data
 gender = {"Female": 0, "Male": 1}
 yes_no = {'No' : 0,'Yes' : 1}
 dependents = {'0':0,'1':1,'2':2,'3+':3}
@@ -25,6 +30,7 @@ education = {'Not Graduate' : 0, 'Graduate' : 1}
 property = {'Semiurban' : 0, 'Urban' : 1,'Rural' : 2}
 output = {"N": 0, "Y": 1}
 
+# replace categorical data with numerical data 
 dataset['Gender'] = dataset['Gender'].replace(gender)
 dataset['Married'] = dataset['Married'].replace(yes_no)
 dataset['Dependents'] = dataset['Dependents'].replace(dependents)
@@ -33,56 +39,54 @@ dataset['Self_Employed'] = dataset['Self_Employed'].replace(yes_no)
 dataset['Property_Area'] = dataset['Property_Area'].replace(property)
 dataset['Loan_Status'] = dataset['Loan_Status'].replace(output)
 
+# independent and dependent variable
 x = dataset.drop('Loan_Status', 1)
 y = dataset.Loan_Status
 
-from sklearn.model_selection import train_test_split
-X_train, X_test, Y_train, Y_test= train_test_split(x, y, test_size= 0.25, random_state=38, stratify = y)
+# splitting dataset
+X_train, X_test, Y_train, Y_test= train_test_split(x, y, test_size= 0.25, random_state=0)
 
-from sklearn.neighbors import KNeighborsClassifier
-knn = KNeighborsClassifier(n_neighbors = 5)
+# train the model
+knn = KNeighborsClassifier(n_neighbors = 17)
 knn.fit(X_train, Y_train)
 
+# web title
 st.set_page_config(
     page_title="LEC-App",
 )
 
-
-
-
-
+# navigation/option
 with st.sidebar:
    selected = option_menu(
         menu_title="Main Menu",  
         options=["Home", "Demo"], 
         icons=["house", "record-circle"],  
         menu_icon="cast",  # optional
-        default_index=0,  # optional
-            
-   )
-    
+        default_index=0,  # optional         
+)
 
- 
-
+# option : Home
 if selected == "Home":
     st.write("# Loan Eligibility Checking App")
-
     st.write(
     """
-    Built with distanced-based supervised machine learning algorithm for classification problem  \n called **K-Nearest Neighbors**.
-    Personally, the program was developed to deepen the understanding of machine learning.
-    Concurrently, there is a final assignment of college subject so i also created a simple web-based interface using Streamlit.
-
+    Built with distanced-based supervised machine learning algorithm  \n for classification problem called **K-Nearest Neighbors**.
     """
     )
+
+     image1 = Image.open('knn1.jpg')
+    
+    st.image(image1)
+    
     
     st.markdown(
     """
-    - [Source Code](https://github.com/zeinrivo/lec-app/tree/main)
+    - [Source Code](https://docs.streamlit.io)
     """
     )
     st.caption("Created by **Zein Rivo**")
 
+# option : Demo 
 if selected == "Demo":
     st.title("Loan Eligibility Checking App")
     st.write("Customize the input below with your personal data")
@@ -106,7 +110,6 @@ if selected == "Demo":
     loan_amount_termm = st.number_input("Loan Amount Term")
     cre_historyy = st.selectbox("Credit History",cre_historY)
     propertyy = st.selectbox("Property Area",propertY)
-
 
     if genderr == "Male":
       genderr = 1
@@ -150,7 +153,6 @@ if selected == "Demo":
       propertyy = 2
 
 
-
     ok = st.button ("Check Eligibility")
 
     if ok:
@@ -160,4 +162,3 @@ if selected == "Demo":
         st.subheader("Not Eligible")
       if lep == 1:
         st.subheader("Eligible")
-        
