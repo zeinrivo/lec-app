@@ -40,7 +40,7 @@ dataset['Property_Area'] = dataset['Property_Area'].replace(property)
 dataset['Loan_Status'] = dataset['Loan_Status'].replace(output)
 
 # independent and dependent variable
-x = dataset.drop('Loan_Status', 1)
+x = dataset.drop('Loan_Status', axis = 1)
 y = dataset.Loan_Status
 
 # splitting dataset
